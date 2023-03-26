@@ -167,7 +167,7 @@
         maplibregl.addProtocol("pmtiles", protocol_maff.tile);
 
         // let PMTILES_Fude_URL = "https://xs489works.xsrv.jp/MapLibreGLJS/10-01/fude_2022_01_47.pmtiles";
-        let PMTILES_Maff_URL = "https://maff-fude-pmtiles.s3.ap-northeast-1.amazonaws.com/fude_2022_01_47.pmtiles";
+        let PMTILES_Maff_URL = "https://pmtiles-data.s3.ap-northeast-1.amazonaws.com/maff-fude/fude_2022_01_47.pmtiles";
 
         const p_maff = new pmtiles.PMTiles(PMTILES_Maff_URL)
         p_maff.getMetadata().then((res) => console.log(res));
@@ -181,7 +181,7 @@
         maplibregl.addProtocol("pmtiles", protocol_maff_centroid.tile);
 
         // let PMTILES_Fude_URL = "https://xs489works.xsrv.jp/MapLibreGLJS/10-01/fude_2022_01_47.pmtiles";
-        let PMTILES_Maff_Centroid_URL = "https://maff-fude-pmtiles.s3.ap-northeast-1.amazonaws.com/fude_2022_01_47_centroid.pmtiles";
+        let PMTILES_Maff_Centroid_URL = "https://pmtiles-data.s3.ap-northeast-1.amazonaws.com/maff-fude/fude_2022_01_47_centroid.pmtiles";
 
         const p_maff_centroid = new pmtiles.PMTiles(PMTILES_Maff_Centroid_URL)
         p_maff_centroid.getMetadata().then((res) => console.log(res));
