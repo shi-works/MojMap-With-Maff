@@ -147,47 +147,32 @@
     <link rel="stylesheet" href="https://unpkg.com/@maplibre/maplibre-gl-geocoder@1.2.0/dist/maplibre-gl-geocoder.css"
         type="text/css" />
     <script type="text/javascript">
-        // 法務省地図XML（PMTiles）
         // add the PMTiles plugin to the maplibregl global.
-        let protocol_moj = new pmtiles.Protocol();
-        maplibregl.addProtocol("pmtiles", protocol_moj.tile);
+        let protocol = new pmtiles.Protocol();
+        maplibregl.addProtocol("pmtiles", protocol.tile);
 
-        // let PMTILES_URL = "https://protomaps.github.io/PMTiles/protomaps(vector)ODbL_firenze.pmtiles";
+
+        // 法務省地図XML（PMTiles）
         let PMTILES_Moj_URL = "https://x.optgeo.org/ipfs/QmTZHWMAnRC5zNiNvdVuTDacThKkj4jKbwsZtKQkAC4R69";
 
-        const p_moj = new pmtiles.PMTiles(PMTILES_Moj_URL)
-        p_moj.getMetadata().then((res) => console.log(res));
-
-        // this is so we share one instance across the JS code and the map renderer
-        protocol_moj.add(p_moj);
-
         // 筆ポリゴン（PMTiles）
-        // add the PMTiles plugin to the maplibregl global.
-        let protocol_maff = new pmtiles.Protocol();
-        maplibregl.addProtocol("pmtiles", protocol_maff.tile);
-
-        // let PMTILES_Fude_URL = "https://xs489works.xsrv.jp/MapLibreGLJS/10-01/fude_2022_01_47.pmtiles";
         let PMTILES_Maff_URL = "https://pmtiles-data.s3.ap-northeast-1.amazonaws.com/maff-fude/fude_2022_01_47.pmtiles";
 
-        const p_maff = new pmtiles.PMTiles(PMTILES_Maff_URL)
-        p_maff.getMetadata().then((res) => console.log(res));
-
-        // this is so we share one instance across the JS code and the map renderer
-        protocol_maff.add(p_maff);
-
         // 筆ポリゴン重心（PMTiles）
-        // add the PMTiles plugin to the maplibregl global.
-        let protocol_maff_centroid = new pmtiles.Protocol();
-        maplibregl.addProtocol("pmtiles", protocol_maff_centroid.tile);
-
-        // let PMTILES_Fude_URL = "https://xs489works.xsrv.jp/MapLibreGLJS/10-01/fude_2022_01_47.pmtiles";
         let PMTILES_Maff_Centroid_URL = "https://pmtiles-data.s3.ap-northeast-1.amazonaws.com/maff-fude/fude_2022_01_47_centroid.pmtiles";
 
+        const p_moj = new pmtiles.PMTiles(PMTILES_Moj_URL)
+        const p_maff = new pmtiles.PMTiles(PMTILES_Maff_URL)
         const p_maff_centroid = new pmtiles.PMTiles(PMTILES_Maff_Centroid_URL)
+
+        p_moj.getMetadata().then((res) => console.log(res));
+        p_maff.getMetadata().then((res) => console.log(res));
         p_maff_centroid.getMetadata().then((res) => console.log(res));
 
         // this is so we share one instance across the JS code and the map renderer
-        protocol_maff_centroid.add(p_maff_centroid);
+        protocol.add(p_moj);
+        protocol.add(p_maff);
+        protocol.add(p_maff_centroid);
 
         // basic MapLibre map
         const map = new maplibregl.Map({
@@ -633,7 +618,11 @@
             map.addSource("moj-pmtiles", {
                 type: "vector",
                 url: "pmtiles://" + PMTILES_Moj_URL,
-                attribution: '<a href="https://github.com/amx-project">法務省地図XMLアダプトプロジェクト ベクトルタイル</a>'
+                attribution: '<a href="https://github.com/amx-project">法務省地図XMLアダプトプロジェクト ベクトルタイル</a>',
+                generateId: true,
+                promoteId: {
+                    fude: "id"
+                }
             });
 
             // 代表点レイヤ
@@ -671,7 +660,7 @@
                 "source-layer": "fude",
                 "type": "fill",
                 "paint": {
-                    'fill-color': 'rgb(255, 242, 204)',
+                    'fill-color': 'rgb(255, 0, 0)',
                     'fill-opacity': 0
                 }
             });
